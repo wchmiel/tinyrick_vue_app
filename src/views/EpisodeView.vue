@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div v-infinite-scroll="loadMoreEpisodes" infinite-scroll-disabled="isLoadingDisabled">
         <h1 class="episodes__title">Episodes</h1>
 
         <div class="episodes__search">
@@ -35,31 +35,64 @@ export default {
         return {
             page: 1,
             name: '',
-            episodes: []
+            episodes: [],
+            busy: true,
+            initScroll: true,
+            maxPages: 0
         }
     },
     methods: {
         async fetchData() {
             try {
+                this.busy = true;
                 const result = await fetchEpisodes(this.page, this.name);
-                this.episodes = result ? result.results : [];
+
+                if (result) {
+                    this.episodes = this.episodes.concat(result.results);
+                    this.maxPages = result.info.pages;
+                }
+
+                this.busy = false;
             } catch(e) {
                 console.log(e);
             }
         },
         filterEpisodes(e) {
-            //console.log(e.target.value);
+            this.episodes.length = 0;
+            this.page = 1;
             this.name = e.target.value;
             this.fetchData();
+        },
+        loadMoreEpisodes() {
+            this.page++;
+
+            // if(this.page <= this.maxPages) {
+            //     this.fetchData();
+            // }
+    
+            //this.fetchMoreData();
+
+            // if (!this.busy && !this.initScroll) {
+            //     this.busy = true;
+            //     this.page++;
+    
+            //     this.fetchMoreData();
+            // }
         }
     },
-    // watch: {
-    //     name() {
-    //         this.fetchData();
-    //     }
-    // },
+    computed: {
+        // isInitLoading() {
+        //     return this.busy || this.page === 1;
+        // },
+        isLoadingDisabled() {
+            return this.page >= this.maxPages || this.busy
+        }
+    },
     created() {
         this.fetchData();
+    },
+    mounted() {
+        this.initScroll = false;
     }
 }
 </script>
