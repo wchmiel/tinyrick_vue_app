@@ -5,10 +5,7 @@
         <span class="episode-item__season-badge">Season {{ seasonNb }}</span>
 
         <!-- optional info -->
-        <div class="episode-info">
-            <span class="episode-info__label">{{ episode.air_date }}</span>
-            <span class="episode-info__value">December 2, 2013</span>
-        </div>
+        <slot></slot>
     </div>
 </template>
 

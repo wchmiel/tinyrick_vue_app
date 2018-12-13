@@ -9,7 +9,9 @@
 
         <ul class="episodes__list">
             <li v-for="episode in episodes" :key="episode.id">
-                <EpisodeItem :episode="episode"/>
+                <router-link :to="{name: 'EpisodeDetails', params: {id: episode.id} }">
+                    <EpisodeItem :episode="episode"/>
+                </router-link>
             </li>
         <!-- ... -->
         </ul>
@@ -65,19 +67,7 @@ export default {
         },
         loadMoreEpisodes() {
             this.page++;
-
-            // if(this.page <= this.maxPages) {
-            //     this.fetchData();
-            // }
-    
-            //this.fetchMoreData();
-
-            // if (!this.busy && !this.initScroll) {
-            //     this.busy = true;
-            //     this.page++;
-    
-            //     this.fetchMoreData();
-            // }
+            this.fetchData();
         }
     },
     computed: {

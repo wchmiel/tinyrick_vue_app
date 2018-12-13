@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import Router from 'vue-router'
+import EpisodeDetails from './views/EpisodeDetails.vue'
+import EpisodeView from './views/EpisodeView.vue';
+
 //import Home from './views/Home.vue'
 
 Vue.use(Router)
@@ -8,11 +11,17 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    // {
-    //   path: '/',
-    //   name: 'home',
-    //   component: Home
-    // },
+    {
+      path: '/',
+      name: 'EpisodeView',
+      component: EpisodeView
+    },
+    {
+      path: '/episode/:id',
+      props: true,
+      name: 'EpisodeDetails',
+      component: EpisodeDetails
+    }
     // {
     //   path: '/about',
     //   name: 'about',

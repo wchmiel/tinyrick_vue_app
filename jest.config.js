@@ -8,6 +8,7 @@ module.exports = {
   transform: {
     '^.+\\.vue$': 'vue-jest',
     '.+\\.(css|styl|less|sass|scss|svg|png|jpg|ttf|woff|woff2)$': 'jest-transform-stub',
+    '^.+\\.svg$': '<rootDir>/__jest__/transformSvg.js',
     '^.+\\.jsx?$': 'babel-jest'
   },
   moduleNameMapper: {
