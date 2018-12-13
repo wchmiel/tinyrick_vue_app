@@ -13,7 +13,6 @@
                     <EpisodeItem :episode="episode"/>
                 </router-link>
             </li>
-        <!-- ... -->
         </ul>
 
         <div class="episodes__loader">

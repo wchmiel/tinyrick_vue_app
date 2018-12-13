@@ -9,17 +9,15 @@
 
         <div class="episode__content">
             <div class="episode__left-col">
-                <!-- Episode Item with extra info -->
                 <EpisodeItem :episode="episode" v-if="episode">
                     <div class="episode-info">
                         <span class="episode-info__label">{{ episode.air_date }}</span>
-                        <span class="episode-info__value">December 2, 2013</span>
+                        <!-- <span class="episode-info__value">December 2, 2013</span> -->
                     </div>
                 </EpisodeItem>
                 <h2>Characters</h2>
 
                 <div class="characters-list">
-                    <!-- Character Items -->
                     <template v-if="characters">
                         <Character 
                             v-for="character in characters"
@@ -38,7 +36,6 @@
                 
             <div class="episode__right-col">
             <h2>Comments</h2>
-            <!-- Comments -->
                 <CommentForm @submitform="onSubmit"/>
                 <template v-if="comments.length">
                     <Comment 
@@ -120,7 +117,6 @@ export default {
         },
         async onSubmit(commentText) {
             const result = await addComment(this.id, commentText);
-            console.log(result);
             this.comments = [
                 result.data,
                 ...this.comments
