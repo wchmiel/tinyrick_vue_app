@@ -2,29 +2,39 @@
     <div>
         <h1>Episode</h1>
 
-        <a href="/" class="go-back-link">
+        <router-link to="/" class="go-back-link">
             <arrowSvg/>
             Search results
-        </a>
+        </router-link>
 
         <div class="episode__content">
             <div class="episode__left-col">
-                <EpisodeItem :episode="episode" v-if="episode">
-                    <div class="episode-info">
-                        <span class="episode-info__label">{{ episode.air_date }}</span>
-                        <!-- <span class="episode-info__value">December 2, 2013</span> -->
-                    </div>
-                </EpisodeItem>
+                <div class="episode-details">
+                    <transition
+                        enter-active-class="animated fadeIn"
+                    >
+                        <EpisodeItem :episode="episode" v-if="episode">
+                            <div class="episode-info">
+                                <span class="episode-info__label">{{ episode.air_date }}</span>
+                            </div>
+                        </EpisodeItem>
+                    </transition>
+                </div>
                 <h2>Characters</h2>
 
                 <div class="characters-list">
-                    <template v-if="characters">
-                        <Character 
-                            v-for="character in characters"
-                            :key="character.id"
-                            :character="character"
-                            />
-                    </template>
+                    <transition-group
+                        enter-active-class="animated fadeInLeft"
+                        tag="div"
+                    >
+                        <template v-if="characters">
+                            <Character 
+                                v-for="character in characters"
+                                :key="character.id"
+                                :character="character"
+                                />
+                        </template>
+                    </transition-group>
                 
                 <div class="link-container">
                     <button class="primary-link is-big">
@@ -35,15 +45,20 @@
             </div>
                 
             <div class="episode__right-col">
-            <h2>Comments</h2>
+                <h2>Comments</h2>
                 <CommentForm @submitform="onSubmit"/>
-                <template v-if="comments.length">
-                    <Comment 
-                        v-for="comment in comments"
-                        :key="comment.id"
-                        :comment="comment"
+                <transition-group
+                    enter-active-class="animated fadeInUp"
+                    tag="div"
+                >
+                    <template v-if="comments.length">
+                        <Comment
+                            v-for="comment in comments"
+                            :key="comment.id"
+                            :comment="comment"
                         />
-                </template>
+                    </template>
+                </transition-group>
             </div>
         </div>
     </div>
@@ -129,6 +144,11 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+    .fadeInUp {
+        animation-duration: 0.3s;
+    }
+    .fadeInLeftBig {
+        animation-duration: 0.3s;
+    }
 </style>

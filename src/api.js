@@ -1,4 +1,4 @@
-import { baseUrl } from './const.js';
+import { baseUrl } from '@/const';
 import axios from 'axios';
 
 export const fetchEpisodes = function(page = 1, name = '') {

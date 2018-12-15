@@ -1,3 +1,1 @@
-const baseUrl = 'http://tiny-rick.tk/api';
-
-export { baseUrl }
+export const baseUrl = 'http://tiny-rick.tk/api';

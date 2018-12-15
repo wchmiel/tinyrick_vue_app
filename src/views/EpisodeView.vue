@@ -4,19 +4,26 @@
 
         <div class="episodes__search">
         <ArrowSearch/>
-        <input @change="filterEpisodes" type="text" placeholder="Search">
+        <input @input="filterEpisodes" type="text" placeholder="Search">
         </div>
 
-        <ul class="episodes__list">
+        <transition-group
+            enter-active-class="animated fadeIn faster"
+            tag="ul"
+            class="episodes__list"
+        >
             <li v-for="episode in episodes" :key="episode.id">
                 <router-link :to="{name: 'EpisodeDetails', params: {id: episode.id} }">
                     <EpisodeItem :episode="episode"/>
                 </router-link>
             </li>
-        </ul>
+        </transition-group>
 
-        <div class="episodes__loader">
-        Loading more
+        <div
+            v-if="!isLoadingDisabled"
+            class="episodes__loader"
+        >
+            Loading more...
         </div>
     </div>
 </template>
@@ -26,6 +33,7 @@
 import ArrowSearch from './../assets/icon-search.svg';
 import { fetchEpisodes } from './../api.js';
 import EpisodeItem from './../components/EpisodeItem.vue';
+import debounce from 'lodash.debounce';
 
 export default {
     components: {
@@ -58,16 +66,16 @@ export default {
                 console.log(e);
             }
         },
-        filterEpisodes(e) {
+        loadMoreEpisodes() {
+            this.page++;
+            this.fetchData();
+        },
+        filterEpisodes: debounce(async function(e) {
             this.episodes.length = 0;
             this.page = 1;
             this.name = e.target.value;
             this.fetchData();
-        },
-        loadMoreEpisodes() {
-            this.page++;
-            this.fetchData();
-        }
+        }, 100)
     },
     computed: {
         // isInitLoading() {
